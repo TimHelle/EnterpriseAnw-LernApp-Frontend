@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="App.MainPage" Title="Lernanwendung">
+
+    <StackLayout Margin="10">
+        <!-- Block für Module(Kategorie) -->
+        <StackLayout>
+            <Label  Text="Wähle die Anzahl an Fragen:"/>
+            <Picker x:Name="NumberOfCategoriePicker" SelectedIndexChanged="NumberOfCategoriePickerSelectedIndexChanged"/>
+            <Label  Text="Wähle deine Kategorien:" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Start" />
+            <!-- Liste aller Module(Kategorien)-->
+            <ListView
+                x:Name="ListViewOfCategorieItems"
+                SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Padding="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        x:Name="labelItem"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="{ Binding titel }"
+                                        XAlign="Start"
+                                        YAlign="Center"
+                                        TextColor="Black"/>
+                                    <Switch
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Toggled="SwitchToggled"
+                                        IsToggled="False"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!-- Block für die Buttons -->
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+            <Button
+                x:Name="ButtonLearnModus"
+                HorizontalOptions="StartAndExpand"
+                Clicked="ButtonStartLearnMode"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60">
+                <Button.ImageSource>
+                    <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_not_started_black_36.png"/>
+                </Button.ImageSource>
+            </Button>
+            <Button
+                x:Name="ButtonNewItem"
+                HorizontalOptions="CenterAndExpand"
+                Clicked="ButtonAddNewItem"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60">
+                <Button.ImageSource>
+                    <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_note_add_black_36.png"/>
+                </Button.ImageSource>
+            </Button>
+            <Button
+                x:Name="ButtonSetting"
+                HorizontalOptions="EndAndExpand"                
+                Clicked="ButtonSettingPage"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60">
+                <Button.ImageSource>
+                    <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_build_black_36.png"/>
+                </Button.ImageSource>
+            </Button>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
