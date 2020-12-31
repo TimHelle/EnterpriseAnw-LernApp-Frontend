@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="App.MainPage" Title="Lernanwendung">
-
     <StackLayout Margin="10">
         <!-- Block für Module(Kategorie) -->
         <StackLayout>
