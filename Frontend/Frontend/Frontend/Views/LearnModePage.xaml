@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="App.Views.LearnModePage" Title="Fragerunde">
+    <ContentPage.Content>
+        <StackLayout Margin="10">
+            <StackLayout VerticalOptions="StartAndExpand">
+                <Button x:Name="buttonExplanation"
+                        Text="?"
+                        CornerRadius="30"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        HorizontalOptions="End"
+                        IsVisible="False"
+                        Clicked="buttonExplanationClicked">
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_info_black_36.png"/>
+                    </Button.ImageSource>
+                </Button>
+                
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Label x:Name="labelQuestion" 
+                       VerticalOptions="StartAndExpand" 
+                       HorizontalOptions="Center" 
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="Medium"
+                       LineBreakMode="WordWrap"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Button x:Name="buttonAnswerA" Clicked="buttonAnswerClicked" CornerRadius="25"/>
+                <Button x:Name="buttonAnswerB" Clicked="buttonAnswerClicked" CornerRadius="25"/>
+                <Button x:Name="buttonAnswerC" Clicked="buttonAnswerClicked" CornerRadius="25"/>
+                <Button x:Name="buttonAnswerD" Clicked="buttonAnswerClicked" CornerRadius="25"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label x:Name="labelCounterForQuestions"
+                       IsVisible="True"/>
+                <Button x:Name="NextButton"
+                        HorizontalOptions="EndAndExpand" 
+                        VerticalOptions="End"
+                        IsVisible="False" 
+                        Clicked="buttonNextQuestionClicked"
+                        CornerRadius="30"
+                        WidthRequest="60"
+                        HeightRequest="60">
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_arrow_right_alt_black_36.png"/>
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="App.Views.AddNewItem" Title="Was wollen Sie hinzufügen?">
+    <ContentPage Title="Frage">
+        <ContentPage.Content>
+            <StackLayout>
+                <Label Text="Frage:"/>
+                <Entry x:Name="entryQuestion" Placeholder="Frage eingeben"></Entry>
+                <Label Text="Richtige Antworten:"></Label>
+                <Entry x:Name="entryRightAnwser" Placeholder="Richtige Antwort eingeben"></Entry>
+                <Label Text="Falsche Antworten:"></Label>
+                <Entry x:Name="entryWrongAnwser_1" Placeholder="Falsche Antwort eingeben"></Entry>
+                <Entry x:Name="entryWrongAnwser_2" Placeholder="Falsche Antwort eingeben"></Entry>
+                <Entry x:Name="entryWrongAnwser_3" Placeholder="Falsche Antwort eingeben"></Entry>
+                <Label Text="Kategorie:"/>
+                <Picker x:Name="pickerCategory"/>
+                <Button 
+                    VerticalOptions="EndAndExpand" 
+                    HorizontalOptions="Center" 
+                    CornerRadius="30"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    Clicked="buttonSaveQuestionClicked">
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_save_black_36.png"/>
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
+        </ContentPage.Content>
+    </ContentPage>
+    <ContentPage Title="Kategorie">
+        <ContentPage.Content>
+            <StackLayout>
+                <Label Text="Titel:"/>
+                <Entry x:Name="entryCategoryTitel" Placeholder="Titel eingeben"></Entry>
+                <Label Text="Beschreibung:"></Label>
+                <Entry x:Name="entryCategoryDescribtion" Placeholder="Beschreibung eingeben"></Entry>
+                <Button 
+                    VerticalOptions="EndAndExpand" 
+                    HorizontalOptions="Center" 
+                    CornerRadius="30"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    Clicked="buttonSaveCategoryClicked">
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_save_black_36.png"/>
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
+        </ContentPage.Content>
+    </ContentPage>
+</TabbedPage>
