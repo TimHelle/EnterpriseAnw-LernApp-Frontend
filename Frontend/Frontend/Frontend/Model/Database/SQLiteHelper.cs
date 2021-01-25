@@ -14,7 +14,7 @@ namespace App.Model.Database
         public static readonly string dbFileName = "LearningAppData.sqlite";
         public static readonly string pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), dbFileName);
 
-        private static readonly string UrlToBackend = "http://51.137.215.185:8080/api/";
+        private static readonly string UrlToBackend = "http://51.137.215.185:9000/api/";
 
         public SQLiteHelper() { }
         #region stuff for settings
@@ -175,8 +175,8 @@ namespace App.Model.Database
                 }
             }
 
-            String jsonFragen = (new WebClient()).DownloadString(url + "fragen");
-            String jsonKategorien = (new WebClient()).DownloadString(url + "kategorien");
+            String jsonFragen = (new WebClient()).DownloadString(url + "questions");
+            String jsonKategorien = (new WebClient()).DownloadString(url + "categories");
             JsonDocument jsonDocFragen = JsonDocument.Parse(jsonFragen);
             JsonDocument jsonDocKategorien = JsonDocument.Parse(jsonKategorien);
 
@@ -187,15 +187,31 @@ namespace App.Model.Database
                 //nFrage.explanation = "not yet implemented";
                 nFrage.Id = element.GetProperty("id").GetUInt32();
                 nFrage.text = element.GetProperty("text").GetString();
-                var kategorien = element.GetProperty("kategorien").EnumerateArray();
-                foreach (JsonElement katEl in kategorien)
+                try
                 {
+                    //var kategorien = element.GetProperty("category").EnumerateArray();
+                    //foreach (JsonElement katEl in kategorien)
+                    //{
+                    //    DAOFrageKategorie daoKat = new DAOFrageKategorie();
+                    //    daoKat.FID = nFrage.Id;
+                    //    //daoKat.KID = katEl.GetUInt32();
+                    //    daoKat.KID = katEl.GetProperty("id").GetUInt32();
+                    //    db.Insert(daoKat);
+                    //}
+
+                    var kategorie = element.GetProperty("category");
+                    var kid = kategorie.GetProperty("id").GetUInt32();
                     DAOFrageKategorie daoKat = new DAOFrageKategorie();
                     daoKat.FID = nFrage.Id;
-                    daoKat.KID = katEl.GetUInt32();
+                    daoKat.KID = kid;
                     db.Insert(daoKat);
+
                 }
-                var antworten = element.GetProperty("antworten").EnumerateArray();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                var antworten = element.GetProperty("answers").EnumerateArray();
                 foreach (JsonElement antEl in antworten)
                 {
                     DAOAntwort antwort = new DAOAntwort();
@@ -219,7 +235,13 @@ namespace App.Model.Database
                 nKategorie.title = element.GetProperty("title").GetString();
                 nKategorie.description = element.GetProperty("description").GetString();
 
+                try {
                 db.Insert(nKategorie);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             db.Close();
             setFragenList();
