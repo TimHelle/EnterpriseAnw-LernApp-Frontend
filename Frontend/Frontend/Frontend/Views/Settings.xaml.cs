@@ -50,6 +50,8 @@ namespace App.Views
                 catch (Exception ex)
                 {
                     DisplayAlert("Fehler", "Es konnten keine Daten geladen werden!", "Okay");
+                    DisplayAlert("Fehler", ex.Message, "Okay");
+                    Console.WriteLine(ex.StackTrace);
                 }
             }
         }
