@@ -3,8 +3,18 @@
 
 # Visual Studio (>=2015) project-specific, machine local files
 .vs/
+**/.vs/
+
+###
+
+**/obj/
+slnx.sqlite
+
+###
+
 
 # User-specific files
+.suo
 *.suo
 *.user
 *.sln.docstates
