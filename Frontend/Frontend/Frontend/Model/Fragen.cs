@@ -13,6 +13,9 @@ namespace App
         private Collection<Antworten> antwort = new Collection<Antworten>();
         private Collection<Kategorien> kategorie = new Collection<Kategorien>();
 
+        public string hash { get; set; }
+        public bool userCreated { get; set; }
+
         public static Collection<Fragen> fragen { get; set; } = new Collection<Fragen>();
 
         public uint? getId()
