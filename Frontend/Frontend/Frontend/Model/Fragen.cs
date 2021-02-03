@@ -8,7 +8,7 @@ namespace App
     public class Fragen
     {
         private uint? id;
-        private String text;
+        public String text { get; set; }
         private String erklärung;
         private Collection<Antworten> antwort = new Collection<Antworten>();
         private Collection<Kategorien> kategorie = new Collection<Kategorien>();

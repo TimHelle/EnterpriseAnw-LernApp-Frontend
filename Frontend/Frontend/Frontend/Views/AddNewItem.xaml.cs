@@ -86,6 +86,7 @@ namespace App.Views
                     Antworten a3 = new Antworten();
                     Antworten a4 = new Antworten();
                     question.setText(entryQuestion.Text);
+                    question.setErklärung(entryQuestionExplanation.Text);
                     a1.setText(entryRightAnwser.Text);
                     a1.setStatus(true);
                     question.setAntworten(a1);

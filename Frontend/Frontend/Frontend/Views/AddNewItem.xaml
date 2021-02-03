@@ -10,6 +10,8 @@
             <StackLayout>
                 <Label Text="Frage:"/>
                 <Entry x:Name="entryQuestion" Placeholder="Frage eingeben"></Entry>
+                <Label Text="Erklärung:"/>
+                <Entry x:Name="entryQuestionExplanation" Placeholder="Erklärung eingeben"></Entry>
                 <Label Text="Richtige Antworten:"></Label>
                 <Entry x:Name="entryRightAnwser" Placeholder="Richtige Antwort eingeben"></Entry>
                 <Label Text="Falsche Antworten:"></Label>
