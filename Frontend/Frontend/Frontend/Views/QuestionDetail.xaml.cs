@@ -18,15 +18,24 @@ namespace App.Views
         }
         protected override void OnAppearing()
         {
-            Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
-            db.initializeSQLiteDatabase();
-            db.initializeSavedSettings();
             Fragenkatalog.katalog.Clear();
             ListViewOfAllQuestionItems.ItemsSource = Fragen.fragen;
         }
         private void ButtonDeleteItem(object sender, EventArgs e)
         {
-            //TODO delelte benutzererstellte frage
+            Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
+            var senderAsButton = (Button)sender;
+            Label label = senderAsButton.Parent.FindByName<Label>("labelItemText");
+            foreach (Fragen item in Fragen.fragen)
+            {
+                if (label.Text.Equals(item.getText()))
+                {
+                    db.DeleteQuestionFromDatabase(item);
+                    Fragen.fragen.Remove(item);
+                    break;
+                }
+            }
+            Navigation.PushAsync(new MainPage());
         }
     }
 }
