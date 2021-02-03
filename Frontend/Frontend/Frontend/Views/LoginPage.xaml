@@ -5,10 +5,8 @@
     <ContentPage.Content>
         <StackLayout Margin="10">
             <StackLayout VerticalOptions="CenterAndExpand">
-                <Label Text="Username:"/>
-                <Entry x:Name="entryUsername" Placeholder="Enter username"></Entry>
                 <Label Text="Password:"/>
-                <Entry x:Name="entryPassword" Placeholder="Enter Passwordname"></Entry>
+                <Entry x:Name="entryPassword" Placeholder="Einschreibe Schlüssel"></Entry>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Button x:Name="buttonExplanation"
                         Text="Login"

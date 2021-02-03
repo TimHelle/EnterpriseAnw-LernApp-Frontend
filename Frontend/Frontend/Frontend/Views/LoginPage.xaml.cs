@@ -20,7 +20,11 @@ namespace Frontend.Views
 
         private void CheckLogin(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new MainPage());
+            String key = "Enterprise";
+            if (entryPassword.Text == key)
+            {
+                Navigation.PushAsync(new MainPage());
+            }            
         }
     }
 }
