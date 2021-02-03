@@ -158,8 +158,91 @@ namespace App.Model.Database
             return kategorien;
         }
 
+        public List<BenutzerFrage> getAllUserCreated()
+        {
+            List<BenutzerFrage> fragen = new List<BenutzerFrage>();
+
+            var db = new SQLiteConnection(pathToDb);
+
+            var tableOfFragen = db.Table<DAOFrage>();
+            var tableOfAntworten = db.Table<DAOAntwort>();
+            var tableOfFrageAntwort = db.Table<DAOFrageAntwort>();
+            var tableOfFrageKategorie = db.Table<DAOFrageKategorie>();
+            var tableOfKategorien = db.Table<DAOKategorie>();
+
+            foreach (DAOFrage daoFrage in tableOfFragen)
+            {
+                if(daoFrage.userCreated)
+                {
+                    BenutzerFrage benutzerFrage = new BenutzerFrage();
+                    benutzerFrage.text = daoFrage.text;
+                    benutzerFrage.explanation = daoFrage.explanation;
+                    benutzerFrage.hash = daoFrage.hash;
+
+
+                    //add Antwort
+                    foreach (DAOAntwort daoAntwort in tableOfAntworten)
+                    {
+                        foreach (DAOFrageAntwort fa in tableOfFrageAntwort)
+                        {
+                            if (fa.FID == daoFrage.Id && fa.AID == daoAntwort.Id)
+                            {
+                                Antworten newAntwort = new Antworten(daoAntwort.text, daoAntwort.isCorrect);
+                                benutzerFrage.addAntwort(newAntwort);
+                            }
+
+                            if (fa.id > DAOFrageAntwort.lastId)
+                            {
+                                DAOFrageAntwort.lastId = fa.id;
+                            }
+
+                        }
+
+                        if (daoAntwort.Id > DAOAntwort.lastId)
+                        {
+                            DAOAntwort.lastId = daoAntwort.Id;
+                        }
+
+                    }
+
+                    //add Kategorie
+                    foreach (DAOKategorie daoKategorie in tableOfKategorien)
+                    {
+                        foreach (DAOFrageKategorie fk in tableOfFrageKategorie)
+                        {
+                            if (fk.FID == daoFrage.Id && fk.KID == daoKategorie.Id)
+                            {
+                                Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
+                                benutzerFrage.setKategorie(newKategorie);
+                            }
+
+                            if (fk.id > DAOFrageKategorie.lastId)
+                            {
+                                DAOFrageKategorie.lastId = fk.id;
+                            }
+
+                        }
+
+                        if (daoKategorie.Id > DAOKategorie.lastId)
+                        {
+                            DAOKategorie.lastId = daoKategorie.Id;
+                        }
+
+                    }
+
+                    //add here
+                    fragen.Add(benutzerFrage);
+                }
+
+            }
+            return fragen;   
+        }
+
         public void wipeDataAndFillFromRemote()
         {
+            //get all user created
+            List<BenutzerFrage> benutzerFragen = getAllUserCreated();
+            //
             var db = new SQLiteConnection(pathToDb);
             this.dropAllTables();
             this.initializeSQLiteDatabase();
@@ -175,8 +258,18 @@ namespace App.Model.Database
                 }
             }
 
-            String jsonFragen = (new WebClient()).DownloadString(url + "questions");
-            String jsonKategorien = (new WebClient()).DownloadString(url + "categories");
+            String jsonFragen = "[]";
+            String jsonKategorien = "[]";
+
+            try
+            {
+                jsonFragen = (new WebClient()).DownloadString(url + "questions");
+                jsonKategorien = (new WebClient()).DownloadString(url + "categories");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             JsonDocument jsonDocFragen = JsonDocument.Parse(jsonFragen);
             JsonDocument jsonDocKategorien = JsonDocument.Parse(jsonKategorien);
 
@@ -244,6 +337,24 @@ namespace App.Model.Database
                 }
             }
             db.Close();
+
+            //now add old user questions and stuff
+            foreach(BenutzerFrage benFrage in benutzerFragen)
+            {
+                Boolean toBeAdded = true;
+                foreach(Fragen frage in getAllFragen())
+                {
+                    if(frage.hash == benFrage.hash)
+                    {
+                        toBeAdded = false;
+                    }
+                }
+                if (toBeAdded)
+                {
+                    AddFrageToDatabase(benFrage.toFrage());
+                }
+            }
+
             setFragenList();
         }
 
@@ -252,6 +363,8 @@ namespace App.Model.Database
             DAOKategorie dAOKategorie = new DAOKategorie();
             var db = new SQLiteConnection(pathToDb);
             dAOKategorie.title = kategorien.titel;
+            dAOKategorie.userCreated = kategorien.userCreated;
+            dAOKategorie.hash = kategorien.hash;
             dAOKategorie.description = kategorien.beschreibung;
             db.Insert(dAOKategorie);
         }
@@ -259,6 +372,8 @@ namespace App.Model.Database
         {
             DAOFrage dAOFrage = new DAOFrage();
             var db = new SQLiteConnection(pathToDb);
+            dAOFrage.userCreated = frage.userCreated;
+            dAOFrage.hash = frage.hash;
             dAOFrage.text = frage.getText();
             foreach (Antworten antwort in frage.getAntwort())
             {

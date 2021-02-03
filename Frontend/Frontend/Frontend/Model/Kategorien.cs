@@ -10,6 +10,8 @@ namespace App
     {
         public uint? id { get; set; }
         public string titel { get; set; }
+        public string hash { get; set; }
+        public bool userCreated { get; set; }
         public string beschreibung { get; set; }
         public bool selected { get; set; }
         public static Collection<Kategorien> auswahl { get; set; } = new Collection<Kategorien>();

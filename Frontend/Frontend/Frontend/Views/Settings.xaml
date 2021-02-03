@@ -19,6 +19,14 @@
                 x:Name="buttonLoadDataFromCloudDB"
                 Text="Load Data From Cloud"
                 Clicked="loadDataFromCloudDBClicked"/>
+            <Button 
+                x:Name="buttonClearAll"
+                Text="Clear All Data"
+                Clicked="clearAllData"/>
+            <Button 
+                x:Name="buttonExportClipboard"
+                Text="Export questions by user to clipboard"
+                Clicked="exportToClipBoard"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

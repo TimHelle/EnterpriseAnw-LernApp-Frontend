@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,16 @@ namespace App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddNewItem : TabbedPage
     {
+
+        private static String getSHA256Hash(string text)
+        {
+            using (var sha256 = new SHA256Managed())
+            {
+                return BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(text))).Replace("-", "");
+            }
+        }
+
+
         public List<string> ListOfSelectedCategories = new List<string>();
         public AddNewItem()
         {
@@ -33,12 +44,22 @@ namespace App.Views
             {
                 if (entryCategoryTitel.Text.Length <= 50)
                 {
-                    Kategorien categorie = new Kategorien();
-                    categorie.titel = entryCategoryTitel.Text;
-                    categorie.beschreibung = entryCategoryDescribtion.Text;
-                    Kategorien.kategorien.Add(categorie);
+                    Kategorien category = new Kategorien();
+                    category.userCreated = true;
+                    category.titel = entryCategoryTitel.Text;
+                    category.beschreibung = entryCategoryDescribtion.Text;
+
+                    //hash berechnen
+                    String catText = category.titel + category.beschreibung;
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine(getSHA256Hash(catText).ToLower());
+                    Console.WriteLine("-------------------------");
+
+                    category.hash = getSHA256Hash(catText).ToLower();
+
+                    Kategorien.kategorien.Add(category);
                     SQLiteHelper db = new SQLiteHelper();
-                    db.AddCategoryToDatabase(categorie);
+                    db.AddCategoryToDatabase(category);
                     Navigation.PushAsync(new MainPage());
                 }
             }
@@ -85,6 +106,16 @@ namespace App.Views
                         }
                     }
                     Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
+                    question.userCreated = true;
+                    //hash here
+                    String questionText = question.getText() + question.getErklärung();
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine(getSHA256Hash(questionText).ToLower());
+                    Console.WriteLine("-------------------------");
+                    question.hash = getSHA256Hash(questionText).ToLower();
+
+
+
                     db.AddFrageToDatabase(question);
                     Navigation.PushAsync(new MainPage());
                 }

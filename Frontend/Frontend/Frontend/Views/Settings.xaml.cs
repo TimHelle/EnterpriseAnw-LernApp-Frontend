@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,6 +31,32 @@ namespace App.Views
             //{
             //    buttonLoadDataFromCloudDB.IsEnabled = false;
             //}
+        }
+
+        private async void clearAllData(object sender, EventArgs e)
+        {
+            var action = await DisplayAlert("Achtung", "Möchten Sie wirklich alle Daten löschen? Benutzerfragen können danach nicht wiederhergestellt werden.", "Yes", "No");
+            if (action == true)
+            {
+                Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
+                db.initializeSQLiteDatabase();
+                db.initializeSavedSettings();
+                db.dropAllTables();
+                db.initializeSQLiteDatabase();
+            }
+        }
+
+        public String getUserCreatedQuestionsJSON()
+        {
+            Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
+            return JsonSerializer.Serialize(db.getAllUserCreated());
+        }
+
+        public async void exportToClipBoard(Object sender, EventArgs e)
+        {
+            await Clipboard.SetTextAsync(getUserCreatedQuestionsJSON());
+            await DisplayAlert("Info", "Der Export-Text wurde in die Zwischenablage kopiert!", "Okay");
+            
         }
 
         private async void loadDataFromCloudDBClicked(object sender, EventArgs e)
