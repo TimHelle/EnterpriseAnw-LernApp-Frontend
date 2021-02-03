@@ -358,6 +358,15 @@ namespace App.Model.Database
             setFragenList();
         }
 
+        public void DeleteQuestionFromDatabase(Fragen frage)
+        {
+            var db = new SQLiteConnection(pathToDb);
+            DAOFrage daoFrage = new DAOFrage();
+            daoFrage.Id = frage.getId();
+
+            db.Delete(daoFrage);
+        }
+
         public void AddCategoryToDatabase(Kategorien kategorien)
         {
             DAOKategorie dAOKategorie = new DAOKategorie();
