@@ -114,6 +114,7 @@ namespace App.Model.Database
                         if (fk.FID == daoFrage.Id && fk.KID == daoKategorie.Id)
                         {
                             Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
+                            newKategorie.hash = daoKategorie.hash;
                             newFrage.setKategorie(newKategorie);
                         }
 
@@ -213,6 +214,7 @@ namespace App.Model.Database
                             if (fk.FID == daoFrage.Id && fk.KID == daoKategorie.Id)
                             {
                                 Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
+                                newKategorie.hash = daoKategorie.hash;
                                 benutzerFrage.setKategorie(newKategorie);
                             }
 

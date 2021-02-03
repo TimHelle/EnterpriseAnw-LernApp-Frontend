@@ -49,7 +49,7 @@ namespace App.Views
         public String getUserCreatedQuestionsJSON()
         {
             Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
-            return JsonSerializer.Serialize(db.getAllUserCreated());
+            return JsonSerializer.Serialize<Object>(db.getAllUserCreated());
         }
 
         public async void exportToClipBoard(Object sender, EventArgs e)
