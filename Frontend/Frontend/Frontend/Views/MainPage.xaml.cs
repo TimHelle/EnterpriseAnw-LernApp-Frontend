@@ -1,4 +1,5 @@
 ﻿using App.Views;
+using Frontend.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,6 +50,10 @@ namespace App
         private void ButtonSettingPage(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Settings());
+        }
+        private void ButtonDetailModus_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new QuestionDetail());
         }
         protected override bool OnBackButtonPressed() => true;
         #endregion
@@ -146,5 +151,6 @@ namespace App
             }
         }
         #endregion
+
     }
 }

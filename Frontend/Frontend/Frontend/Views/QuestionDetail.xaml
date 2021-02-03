@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="App.Views.QuestionDetail" Title="Detailansicht">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label  Text="Hier kannst du Fragen löschen:" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Start" />
+                <!-- Liste aller Fragen-->
+                <ListView
+                x:Name="ListViewOfAllQuestionItems"
+                SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid Padding="5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="35"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label
+                                        x:Name="labelItemText"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="{ Binding text }"
+                                        XAlign="Start"
+                                        YAlign="Center"
+                                        TextColor="Black"/>
+                                        <Button
+                                            x:Name="DeleteItem"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalOptions="CenterAndExpand"
+                                            Clicked="ButtonDeleteItem"
+                                            CornerRadius="30"
+                                            WidthRequest="60"
+                                            HeightRequest="60">
+                                            <Button.ImageSource>
+                                                <OnPlatform x:TypeArguments="FileImageSource"
+                                                            Android="baseline_delete_outline_black_36.png"/>
+                                            </Button.ImageSource>
+                                        </Button>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

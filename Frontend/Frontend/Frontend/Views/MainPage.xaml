@@ -66,6 +66,18 @@
                 </Button.ImageSource>
             </Button>
             <Button
+                x:Name="ButtonDetailModus"
+                HorizontalOptions="StartAndExpand"
+                Clicked="ButtonDetailModus_Clicked"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60">
+                <Button.ImageSource>
+                    <OnPlatform x:TypeArguments="FileImageSource"
+                                Android="baseline_details_black_48.png"/>
+                </Button.ImageSource>
+            </Button>
+            <Button
                 x:Name="ButtonNewItem"
                 HorizontalOptions="CenterAndExpand"
                 Clicked="ButtonAddNewItem"

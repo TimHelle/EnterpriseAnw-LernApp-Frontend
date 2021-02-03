@@ -30,6 +30,8 @@ item;D:\Uni\Enterprise Anwendung\Frontend\Frontend\Frontend\Frontend.Android\obj
 LinearLayout;D:\Uni\Enterprise Anwendung\Frontend\Frontend\Frontend\Frontend.Android\obj\Debug\90\lp\40\jl\res\layout\bottomtablayout.xml
 path;obj\Debug\90\res\drawable\baseline_arrow_right_alt_24.xml
 path;obj\Debug\90\res\drawable\baseline_build_24.xml
+path;obj\Debug\90\res\drawable\baseline_delete_outline_24.xml
+path;obj\Debug\90\res\drawable\baseline_details_24.xml
 path;obj\Debug\90\res\drawable\baseline_help_24.xml
 path;obj\Debug\90\res\drawable\baseline_info_24.xml
 path;obj\Debug\90\res\drawable\baseline_not_started_24.xml
@@ -51,6 +53,8 @@ translate;D:\Uni\Enterprise Anwendung\Frontend\Frontend\Frontend\Frontend.Androi
 translate;D:\Uni\Enterprise Anwendung\Frontend\Frontend\Frontend\Frontend.Android\obj\Debug\90\lp\40\jl\res\anim\exittoright.xml
 vector;obj\Debug\90\res\drawable\baseline_arrow_right_alt_24.xml
 vector;obj\Debug\90\res\drawable\baseline_build_24.xml
+vector;obj\Debug\90\res\drawable\baseline_delete_outline_24.xml
+vector;obj\Debug\90\res\drawable\baseline_details_24.xml
 vector;obj\Debug\90\res\drawable\baseline_help_24.xml
 vector;obj\Debug\90\res\drawable\baseline_info_24.xml
 vector;obj\Debug\90\res\drawable\baseline_not_started_24.xml
