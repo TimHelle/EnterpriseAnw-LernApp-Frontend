@@ -108,6 +108,9 @@ namespace App.Views
                     }
                     Model.Database.SQLiteHelper db = new Model.Database.SQLiteHelper();
                     question.userCreated = true;
+
+                    question.setErklärung(entryQuestionExplanation.Text);
+
                     //hash here
                     String questionText = question.getText() + question.getErklärung();
                     Console.WriteLine("-------------------------");

@@ -20,11 +20,17 @@ namespace App
             public Boolean isCorrect { get; set; }
         }
 
+        public BenutzerFrage()
+        {
+            answers = new List<smallAntwort>();
+        }
+
         public String text { get; set; }
         public String explanation { get; set; }
 
-        public List<smallAntwort> answers = new List<smallAntwort>();
-        public smallKategorie category;
+        //public List<smallAntwort> answers = new List<smallAntwort>();
+        public List<smallAntwort> answers { get; }
+        public smallKategorie category { get; set; }
 
         public String hash { get; set; }
 
@@ -42,8 +48,7 @@ namespace App
 
             nKat.title = kat.titel;
             nKat.description = kat.beschreibung;
-            //TODO : 
-            //nKat.hash = kat.hash
+            nKat.hash = kat.hash;
 
             category = nKat;
         }
