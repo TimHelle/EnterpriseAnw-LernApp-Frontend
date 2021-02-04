@@ -48,8 +48,7 @@ namespace App
 
             nKat.title = kat.titel;
             nKat.description = kat.beschreibung;
-            //TODO : 
-            //nKat.hash = kat.hash
+            nKat.hash = kat.hash;
 
             category = nKat;
         }

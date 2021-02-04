@@ -14,6 +14,10 @@ namespace App.Model.Database
         public uint? FID { get; set; }
         [NotNull]
         public uint? AID { get; set; }
+        //[NotNull]
+        //public string Fhash { get; set; }
+        //[NotNull]
+        //public string Ahash { get; set; }
         [Ignore]
         public static uint? lastId { get; set; } = 0;
         public DAOFrageAntwort()

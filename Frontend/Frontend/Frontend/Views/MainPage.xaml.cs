@@ -27,6 +27,7 @@ namespace App
             NumberOfCategoriePicker.SelectedItem = null;
             NumberOfCategoriePicker.ItemsSource = null;
             Fragenkatalog.katalog.Clear();
+            Kategorien.auswahl.Clear();
             ListViewOfCategorieItems.ItemsSource = Kategorien.kategorien;
         }
 
@@ -71,7 +72,7 @@ namespace App
                 {
                     foreach (Kategorien fragenKategorie in frage.getKategorie())
                     {
-                        if (fragenKategorie.titel.Equals(kategorie.titel))
+                        if (fragenKategorie.hash.Equals(kategorie.hash))
                         {
                             Fragenkatalog.katalog.Add(frage);
                         }

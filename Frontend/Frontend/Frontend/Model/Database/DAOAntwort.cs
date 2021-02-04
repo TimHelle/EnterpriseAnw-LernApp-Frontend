@@ -21,5 +21,9 @@ namespace App.Model.Database
         {
             this.Id = lastId+1;
         }
+        public DAOAntwort(Boolean countUp)
+        {
+
+        }
     }
 }

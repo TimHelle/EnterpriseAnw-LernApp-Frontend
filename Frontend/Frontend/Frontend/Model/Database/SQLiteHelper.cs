@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 
 namespace App.Model.Database
@@ -80,6 +82,8 @@ namespace App.Model.Database
                 //set id erstmal ausgelassen
                 newFrage.setText(daoFrage.text);
                 newFrage.setErklärung(daoFrage.explanation);
+                newFrage.hash = daoFrage.hash;
+                newFrage.userCreated = daoFrage.userCreated;
                 newFrage.setId(daoFrage.Id);
                 //add Antwort
                 foreach (DAOAntwort daoAntwort in tableOfAntworten)
@@ -111,7 +115,7 @@ namespace App.Model.Database
                 {
                     foreach (DAOFrageKategorie fk in tableOfFrageKategorie)
                     {
-                        if (fk.FID == daoFrage.Id && fk.KID == daoKategorie.Id)
+                        if (fk.Fhash == daoFrage.hash && fk.Khash == daoKategorie.hash)
                         {
                             Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
                             newKategorie.hash = daoKategorie.hash;
@@ -153,6 +157,8 @@ namespace App.Model.Database
             {
                 Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
                 newKategorie.id = daoKategorie.Id;
+                newKategorie.hash = daoKategorie.hash;
+                newKategorie.userCreated = daoKategorie.userCreated;
                 kategorien.Add(newKategorie);
             }
 
@@ -199,10 +205,10 @@ namespace App.Model.Database
 
                         }
 
-                        if (daoAntwort.Id > DAOAntwort.lastId)
-                        {
-                            DAOAntwort.lastId = daoAntwort.Id;
-                        }
+                        //if (daoAntwort.Id > DAOAntwort.lastId)
+                        //{
+                        //    DAOAntwort.lastId = daoAntwort.Id;
+                        //}
 
                     }
 
@@ -211,24 +217,24 @@ namespace App.Model.Database
                     {
                         foreach (DAOFrageKategorie fk in tableOfFrageKategorie)
                         {
-                            if (fk.FID == daoFrage.Id && fk.KID == daoKategorie.Id)
+                            if (fk.Fhash == daoFrage.hash && fk.Khash == daoKategorie.hash)
                             {
                                 Kategorien newKategorie = new Kategorien(daoKategorie.title, daoKategorie.description);
                                 newKategorie.hash = daoKategorie.hash;
                                 benutzerFrage.setKategorie(newKategorie);
                             }
 
-                            if (fk.id > DAOFrageKategorie.lastId)
-                            {
-                                DAOFrageKategorie.lastId = fk.id;
-                            }
+                            //if (fk.id > DAOFrageKategorie.lastId)
+                            //{
+                            //    DAOFrageKategorie.lastId = fk.id;
+                            //}
 
                         }
 
-                        if (daoKategorie.Id > DAOKategorie.lastId)
-                        {
-                            DAOKategorie.lastId = daoKategorie.Id;
-                        }
+                        //if (daoKategorie.Id > DAOKategorie.lastId)
+                        //{
+                        //    DAOKategorie.lastId = daoKategorie.Id;
+                        //}
 
                     }
 
@@ -237,7 +243,7 @@ namespace App.Model.Database
                 }
 
             }
-            return fragen;   
+            return fragen;
         }
 
         public void wipeDataAndFillFromRemote()
@@ -281,6 +287,8 @@ namespace App.Model.Database
                 nFrage.explanation = element.GetProperty("explanation").GetString();
                 //nFrage.explanation = "not yet implemented";
                 nFrage.Id = element.GetProperty("id").GetUInt32();
+                nFrage.hash = element.GetProperty("hash").GetString();
+                nFrage.userCreated = false;
                 nFrage.text = element.GetProperty("text").GetString();
                 try
                 {
@@ -295,10 +303,11 @@ namespace App.Model.Database
                     //}
 
                     var kategorie = element.GetProperty("category");
-                    var kid = kategorie.GetProperty("id").GetUInt32();
+                    //var kid = kategorie.GetProperty("id").GetUInt32();
+                    var kHash = kategorie.GetProperty("hash").GetString();
                     DAOFrageKategorie daoKat = new DAOFrageKategorie();
-                    daoKat.FID = nFrage.Id;
-                    daoKat.KID = kid;
+                    daoKat.Fhash = nFrage.hash;
+                    daoKat.Khash = kHash;
                     db.Insert(daoKat);
 
                 }
@@ -328,7 +337,9 @@ namespace App.Model.Database
                 DAOKategorie nKategorie = new DAOKategorie();
                 nKategorie.Id = element.GetProperty("id").GetUInt32();
                 nKategorie.title = element.GetProperty("title").GetString();
+                nKategorie.hash = element.GetProperty("hash").GetString();
                 nKategorie.description = element.GetProperty("description").GetString();
+                nKategorie.userCreated = false;
 
                 try {
                 db.Insert(nKategorie);
@@ -363,7 +374,7 @@ namespace App.Model.Database
         public void DeleteQuestionFromDatabase(Fragen frage)
         {
             var db = new SQLiteConnection(pathToDb);
-            DAOFrage daoFrage = new DAOFrage();
+            DAOFrage daoFrage = new DAOFrage(false);
             daoFrage.Id = frage.getId();
 
             db.Delete(daoFrage);
@@ -379,6 +390,15 @@ namespace App.Model.Database
             dAOKategorie.description = kategorien.beschreibung;
             db.Insert(dAOKategorie);
         }
+
+        private static String getSHA256Hash(string text)
+        {
+            using (var sha256 = new SHA256Managed())
+            {
+                return BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(text))).Replace("-", "");
+            }
+        }
+
         public void AddFrageToDatabase(Fragen frage)
         {
             DAOFrage dAOFrage = new DAOFrage();
@@ -386,6 +406,7 @@ namespace App.Model.Database
             dAOFrage.userCreated = frage.userCreated;
             dAOFrage.hash = frage.hash;
             dAOFrage.text = frage.getText();
+            dAOFrage.explanation = frage.getErklärung();
             foreach (Antworten antwort in frage.getAntwort())
             {
                 DAOAntwort dAOAntwort = new DAOAntwort();
@@ -401,12 +422,14 @@ namespace App.Model.Database
             {
                 bool check = false;
                 uint? i = 0;
+                String katHash = "";
                 foreach (Kategorien dbKategorie in this.getAllKategorien())
                 {
-                    if (dbKategorie.titel.Equals(kategorie.titel))
+                    if (dbKategorie.hash.Equals(kategorie.hash))
                     {
                         check = true;
                         i = dbKategorie.id;
+                        katHash = dbKategorie.hash;
                     }
                 }
                 if (check == false)
@@ -414,12 +437,18 @@ namespace App.Model.Database
                     DAOKategorie dAOKategorie = new DAOKategorie();
                     dAOKategorie.title = kategorie.titel;
                     dAOKategorie.description = kategorie.beschreibung;
+
+                    String catText = dAOKategorie.title + dAOKategorie.description;
+
+                    dAOKategorie.hash = getSHA256Hash(catText).ToLower();
+
                     db.Insert(dAOKategorie);
                     i = dAOKategorie.Id;
+                    katHash = dAOKategorie.hash;
                 }
                 DAOFrageKategorie dAOFrageKategorie = new DAOFrageKategorie();
-                dAOFrageKategorie.KID = i;
-                dAOFrageKategorie.FID = dAOFrage.Id;
+                dAOFrageKategorie.Khash = katHash;
+                dAOFrageKategorie.Fhash = dAOFrage.hash;
                 db.Insert(dAOFrageKategorie);
             }
             db.Insert(dAOFrage);
