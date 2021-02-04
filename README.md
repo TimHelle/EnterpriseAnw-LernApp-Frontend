@@ -1,9 +1,13 @@
 # EnterpriseAnw-LernApp-Frontend
-Das Frontend für das LernApp-Projekt für Enterprise Anwendungen
+This is the Frontend for the LernApp
 
-Benötigte Software:
+Needed software:
 - Visualstudio 2019
 - Android Emulator
 
-Das Projekt kann in Visualstudio geklont werden und
-dann über den Emulator getestet werden.
+The project can be cloned in Visualstudio and
+then tested via the emulator.
+
+If u like to clone the other projects too here are the links:
+Backend:    https://github.com/TimHelle/EnterpriseAnw-LernApp-Backend
+AdminPage:  https://github.com/TimHelle/EnterpriseAnw-LernApp-Adminseite
